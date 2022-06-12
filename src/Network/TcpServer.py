@@ -1,39 +1,45 @@
 import socket, pickle
 
-HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 
 
 class TcpServer:
-    def __init__(self):
+    def __init__(self, host="0.0.0.0"):
+        self._host = host
         self._socket = None
         self._conn = None
+        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._socket.bind((self._host, PORT))
+        self._socket.listen(1)
         self.wait_for_connection()
 
     def wait_for_connection(self):
         print('Waitting for client...')
-        self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self._socket.bind((HOST, PORT))
-        self._socket.listen()
         self._conn, addr = self._socket.accept()
         if self._conn:
-            print(f"Connected by {addr}")
+            print("Connected by {}".format(addr))
     
     def is_connected(self):
-        return self._socket != None
+        return self._conn != None
 
     def disconnect(self):
+        if self._conn is None:
+            return
+        print("Closing conn")
         self._conn.close()
-        self._socket.close()
-        self._socket = None
         self._conn = None
 
+    def __del__(self):
+        self._socket.close()
+
     def wait_for_data(self):
+        if self._conn is None:
+            return None
         data = self._conn.recv(1024)
         if not data:
             self.disconnect()
             return None
-        return pickle.loads(data, fix_imports=False, errors='')
+        return pickle.loads(data)
 
 if __name__ == '__main__':
     from Messages import *
