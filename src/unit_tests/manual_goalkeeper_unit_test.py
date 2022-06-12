@@ -20,7 +20,7 @@ def isData():
 
 if __name__ == '__main__':
     old_settings = termios.tcgetattr(sys.stdin)
-    client = TcpClient()
+    client = TcpClient("192.168.0.112")
     try:
         tty.setcbreak(sys.stdin.fileno())
         mot_angle = MotorAngle()

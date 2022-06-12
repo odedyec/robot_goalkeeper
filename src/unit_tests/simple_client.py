@@ -5,7 +5,7 @@ import time
 from src.Network.Messages import *
 from src.Network.TcpClient import TcpClient
 if __name__ == '__main__':
-    client = TcpClient()
+    client = TcpClient("192.168.0.112")
     angle = -3.14159
     try:
         while True:

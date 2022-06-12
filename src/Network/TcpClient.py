@@ -5,7 +5,8 @@ HOST = "127.0.0.1"  # The server's hostname or IP address
 PORT = 65432  # The port used by the server
 
 class TcpClient:
-    def __init__(self):
+    def __init__(self, host=HOST):
+        self._host = host
         self._socket = None
         self.wait_for_connection()
 
@@ -14,7 +15,7 @@ class TcpClient:
             try:            
                 print('Waitting for server...')
                 self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self._socket.connect((HOST, PORT))
+                self._socket.connect((self._host, PORT))
                 break
             except:
                 time.sleep(1)
