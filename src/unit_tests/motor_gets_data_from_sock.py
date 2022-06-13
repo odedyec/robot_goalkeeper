@@ -1,14 +1,16 @@
-import sys
-sys.path.append('../Network/')
-sys.path.append('../')
+import os, sys
+abs_path = os.path.dirname(os.path.abspath(__file__))
+print(abs_path)
+sys.path.append(abs_path+'/../')
+sys.path.append(abs_path+'/../Network/')
 import select
 import tty
 import termios
 import time
 import math
-from src.Network.TcpServer import TcpServer
-from src.Network.Messages import MotorAngle
-from src.MotorHandler import MotorHandler
+from Network.TcpServer import TcpServer
+from Messages import MotorAngle
+from MotorHandler import MotorHandler
 
 if __name__ == '__main__':
     server = TcpServer()

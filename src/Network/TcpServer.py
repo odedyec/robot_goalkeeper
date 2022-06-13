@@ -1,5 +1,10 @@
 import socket, pickle
-
+import os, sys
+abs_path = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(abs_path+'/../')
+sys.path.append(abs_path+'/../Network')
+sys.path.append(abs_path)
+import Messages
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 
 
